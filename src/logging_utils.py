@@ -23,6 +23,7 @@ def setup_logging(training_args):
         + f"distributed training: {bool(training_args.local_rank != -1)}, 16-bits training: {training_args.fp16}"
     )
     logger.info(f"Training/evaluation parameters {training_args}")
+    return log_level
 
 
 logger = logging.getLogger(__name__)

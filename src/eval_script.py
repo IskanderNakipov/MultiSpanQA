@@ -1,11 +1,12 @@
 # Script for MultiSpanQA evaluation
-import re
-import json
-import string
 import difflib
+import json
+import re
+import string
 import warnings
+from typing import Dict, Set
+
 import numpy as np
-from typing import Dict, List, Set
 
 
 def get_entities(label, token):

@@ -204,7 +204,7 @@ def main():
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
 
     # Setup logging
-    setup_logging(training_args)
+    log_level = setup_logging(training_args)
 
     # Detecting last checkpoint.
     last_checkpoint = delete_last_checkpoint(training_args, logger)
