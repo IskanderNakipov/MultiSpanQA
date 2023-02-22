@@ -1,5 +1,4 @@
 import os
-import logging
 import collections
 from tqdm.auto import tqdm
 
@@ -10,7 +9,6 @@ from datasets import load_dataset
 from transformers import (
     DataCollatorForTokenClassification,
     HfArgumentParser,
-    PreTrainedTokenizerFast,
     TrainingArguments,
     set_seed
 )
@@ -19,12 +17,11 @@ from transformers.utils.versions import require_version
 from arguments import ModelArgumentsPlus, DataTrainingArgumentsPlus
 from common_utils import delete_last_checkpoint, base_init, train_dataset_preprocessing
 from constants import STRUCTURE_LIST, STRUCTURE_TO_ID
-from logging_utils import setup_logging
+from logging_utils import setup_logging, logger
 from models import TaggerPlusForMultiSpanQA
 from eval_script import *
 
 require_version("datasets>=1.8.0", "To fix: pip install -r examples/pytorch/question-answering/requirements.txt")
-logger = logging.getLogger(__name__)
 
 os.environ["WANDB_DISABLED"] = "true"
 
