@@ -20,7 +20,7 @@ from transformers.utils.versions import require_version
 from arguments import ModelArguments, DataTrainingArguments
 from common_utils import delete_last_checkpoint, base_init, train_dataset_preprocessing
 from constants import STRUCTURE_TO_ID, STRUCTURE_LIST
-from logging_utils import setup_logging
+from logging_utils import setup_logging, logger
 from models import BertTaggerForMultiSpanQA, RobertaTaggerForMultiSpanQA
 from trainer import QuestionAnsweringTrainer
 from eval_script import *
@@ -207,7 +207,7 @@ def main():
     setup_logging(training_args)
 
     # Detecting last checkpoint.
-    last_checkpoint = delete_last_checkpoint(training_args)
+    last_checkpoint = delete_last_checkpoint(training_args, logger)
 
     # Set seed before initializing model.
     set_seed(training_args.seed)
