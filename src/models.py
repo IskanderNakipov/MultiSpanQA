@@ -1,5 +1,6 @@
+import torch
 import torch.nn as nn
-from transformers import BertModel, BertPreTrainedModel
+from transformers import BertModel, BertPreTrainedModel, RobertaModel, RobertaPreTrainedModel, BertLayer
 
 
 class BertTaggerForMultiSpanQA(BertPreTrainedModel):
@@ -32,7 +33,7 @@ class BertTaggerForMultiSpanQA(BertPreTrainedModel):
 
         outputs = (logits, ) + outputs[:]
         if labels is not None:
-            loss_fct = CrossEntropyLoss()
+            loss_fct = nn.CrossEntropyLoss()
             # Only keep active parts of the loss
             active_loss = attention_mask.view(-1) == 1
             active_logits = logits.view(-1, self.num_labels)
@@ -75,7 +76,7 @@ class RobertaTaggerForMultiSpanQA(RobertaPreTrainedModel):
 
         outputs = (logits, ) + outputs[:]
         if labels is not None:
-            loss_fct = CrossEntropyLoss()
+            loss_fct = nn.CrossEntropyLoss()
             # Only keep active parts of the loss
             active_loss = attention_mask.view(-1) == 1
             active_logits = logits.view(-1, self.num_labels)
@@ -113,7 +114,7 @@ class FocalLoss(nn.Module):
             if self.alpha.type()!=input.data.type():
                 self.alpha = self.alpha.type_as(input.data)
             at = self.alpha.gather(0,target.data.view(-1))
-            logpt = logpt * Variable(at)
+            logpt = logpt * torch.Variable(at)
 
         loss = -1 * (1-pt)**self.gamma * logpt
         if self.size_average: return loss.mean()
@@ -207,7 +208,7 @@ class TaggerPlusForMultiSpanQA(BertPreTrainedModel):
 
         outputs = (logits, num_span_logits, ) + outputs[:]
         if labels is not None: # for train
-            loss_fct = CrossEntropyLoss()
+            loss_fct = nn.CrossEntropyLoss()
             # Only keep active parts of the loss
             active_loss = attention_mask.view(-1) == 1
             active_logits = logits.view(-1, self.num_labels)
@@ -217,7 +218,7 @@ class TaggerPlusForMultiSpanQA(BertPreTrainedModel):
             loss = loss_fct(active_logits, active_labels)
 
             # num_span regression
-            loss_mse = MSELoss()
+            loss_mse = nn.MSELoss()
             num_span=num_span.type(torch.float) / self.max_spans
             num_span_loss = loss_mse(num_span_logits.view(-1), num_span.view(-1))
             num_span_loss *= self.span_lambda
