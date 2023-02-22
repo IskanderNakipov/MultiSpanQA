@@ -13,7 +13,7 @@ from transformers import (
     HfArgumentParser,
     PreTrainedTokenizerFast,
     TrainingArguments,
-    set_seed,
+    set_seed, AutoModelForTokenClassification
 )
 from transformers.utils.versions import require_version
 
@@ -234,7 +234,7 @@ def main():
     config, tokenizer = base_init(data_args, id2label, label2id, model_args, num_labels)
 
     if 'roberta' in model_args.model_name_or_path:
-        model = RobertaTaggerForMultiSpanQA.from_pretrained(
+        model = AutoModelForTokenClassification.from_pretrained(
             model_args.model_name_or_path,
             from_tf=bool(".ckpt" in model_args.model_name_or_path),
             config=config,
