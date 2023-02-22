@@ -21,7 +21,8 @@ STRUCTURE_LIST = [
     'birth_date',
     'birth_place',
     'burial_date',
-    'burial_place'
+    'burial_place',
+    'name'
 ]
 
 STRUCTURE_TO_ID = {l: i for i, l in enumerate(STRUCTURE_LIST)}
