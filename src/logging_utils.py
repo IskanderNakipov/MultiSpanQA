@@ -1,6 +1,8 @@
 import logging
 import sys
 
+import datasets, transformers
+
 
 def setup_logging(training_args):
     # Setup logging
